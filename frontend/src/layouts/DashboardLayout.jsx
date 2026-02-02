@@ -148,18 +148,51 @@ const DashboardLayout = ({ children }) => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [showProfileDropdown]);
 
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    // ... existing initializations
+
+    // Add function to toggle sidebar
+    const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+    // Close sidebar when route changes on mobile
+    useEffect(() => {
+        setIsSidebarOpen(false);
+    }, [navigate]);
+
     return (
         <div className="min-h-screen bg-[var(--bg-background)] flex font-sans text-[var(--text-primary)] transition-colors duration-300">
-            <Sidebar />
-            <main className="flex-1 ml-72 relative">
+            {/* Mobile Sidebar Overlay */}
+            {isSidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm transition-opacity"
+                    onClick={() => setIsSidebarOpen(false)}
+                />
+            )}
+
+            <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
+            <main className={`flex-1 relative transition-all duration-300 ${isSidebarOpen ? 'ml-0' : 'ml-0 lg:ml-72'}`}>
                 {/* Top Navigation Bar */}
-                <header className="sticky top-0 z-40 bg-[var(--bg-card)]/80 backdrop-blur-md border-b border-[var(--border-color)] px-8 py-4 flex justify-between items-center transition-colors duration-300">
+                <header className="sticky top-0 z-30 bg-[var(--bg-card)]/80 backdrop-blur-md border-b border-[var(--border-color)] px-4 lg:px-8 py-4 flex justify-between items-center transition-colors duration-300">
 
                     <div className="flex items-center gap-4 flex-1">
+                        {/* Hamburger Menu - Only Visible on Mobile */}
+                        <button
+                            onClick={toggleSidebar}
+                            className="p-2 -ml-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 lg:hidden text-[var(--text-secondary)]"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="3" y1="12" x2="21" y2="12"></line>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <line x1="3" y1="18" x2="21" y2="18"></line>
+                            </svg>
+                        </button>
+
                         {/* Search removed as requested */}
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 lg:gap-4">
                         <NotificationDropdown />
 
 

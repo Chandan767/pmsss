@@ -8,7 +8,9 @@ import clsx from 'clsx';
 
 
 
-const Sidebar = () => {
+import { X } from 'lucide-react';
+
+const Sidebar = ({ isOpen, onClose }) => {
     const { user, logout } = useAuth();
     const location = useLocation();
 
@@ -85,7 +87,8 @@ const Sidebar = () => {
 
     return (
 
-        <div className="w-72 bg-[var(--bg-card)] h-screen fixed left-0 top-0 flex flex-col border-r border-[var(--border-color)] shadow-xl shadow-gray-200/50 dark:shadow-none z-50 transition-colors duration-300">
+        <div className={`w-72 bg-[var(--bg-card)] h-screen fixed left-0 top-0 flex flex-col border-r border-[var(--border-color)] shadow-xl shadow-gray-200/50 dark:shadow-none z-50 transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+            }`}>
             {/* Logo Area */}
             <div className="p-8 pb-6">
                 <div className="flex items-center gap-3 mb-8">
@@ -97,6 +100,14 @@ const Sidebar = () => {
                         <p className="text-xs text-[var(--text-secondary)] font-medium tracking-wide">WORKSPACE</p>
                     </div>
                 </div>
+
+                {/* Mobile Close Button */}
+                <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg lg:hidden"
+                >
+                    <X size={20} />
+                </button>
 
                 {/* User Profile Card */}
                 <div className="bg-[var(--bg-background)] rounded-2xl p-4 border border-[var(--border-color)] mb-2 group cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors">
