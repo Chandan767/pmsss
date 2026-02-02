@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:5000'; // Adjust if deployed
+const SOCKET_URL = import.meta.env.PROD ? '/' : 'http://localhost:5000'; // Uses same host in production
 
 let socket;
 
