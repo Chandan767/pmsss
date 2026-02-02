@@ -50,9 +50,18 @@ app.use('/api/v1/notifications', notificationRoutes);
 
 
 
-app.get('/', (req, res) => {
-    res.send('Project Management System API is running...');
-});
+// Serve static files from React build in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+    });
+} else {
+    app.get('/', (req, res) => {
+        res.send('Project Management System API is running...');
+    });
+}
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
