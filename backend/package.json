@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npx --yes prisma@6.2.1 db push && node server.js",
+    "start": "node server.js",
+    "build": "npx --yes prisma@6.2.1 generate && npx --yes prisma@6.2.1 db push",
     "dev": "nodemon server.js",
     "postinstall": "npx prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1"
